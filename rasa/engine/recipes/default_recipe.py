@@ -803,7 +803,6 @@ class DefaultV1Recipe(Recipe):
                 predict_nodes, preprocessors
             )
 
-        rule_only_data_provider_name = "rule_only_data_provider"
         rule_policy_resource = None
         policies: List[Text] = []
 
