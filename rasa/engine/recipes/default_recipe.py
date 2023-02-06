@@ -1,4 +1,5 @@
 from __future__ import annotations
+from collections import defaultdict
 
 import copy
 import enum
@@ -362,9 +363,11 @@ class DefaultV1Recipe(Recipe):
             return {}
 
         def resolver_name_from_parameter(parameter: str) -> str:
-            # we got a special case to handle for input not proided by a
-            # provider:
-            if parameter == "tracker":
+            # we got a couple special cases to handle wher the parameter name
+            # doesn't match the provider name
+            if "training_trackers" == parameter:
+                return "training_tracker_provider"
+            elif "tracker" == parameter:
                 return PLACEHOLDER_TRACKER
             return f"{parameter}_provider"
 
@@ -539,7 +542,7 @@ class DefaultV1Recipe(Recipe):
             config={"exclusion_percentage": cli_parameters.get("exclusion_percentage")},
             is_input=True,
         )
-        train_nodes["training_trackers_provider"] = SchemaNode(
+        train_nodes["training_tracker_provider"] = SchemaNode(
             needs={
                 "story_graph": "story_graph_provider",
                 "domain": "domain_for_core_training_provider",
